@@ -1,0 +1,41 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : Sep 19, 2019, 10:20:38 AM
+    Author     : Bright
+*/
+
+#pane1{
+     -fx-background-color: linear-gradient(to top right, #599fff, #b8d6ff);
+     -fx-background-radius:14;
+}
+
+#pane2{
+     -fx-background-color: linear-gradient(to top right,#EFCC59, #F7E7B0);
+     -fx-background-radius:14;
+}
+
+#pane3{
+     -fx-background-color: linear-gradient(to top right,#1BC781, #34F38D);
+     -fx-background-radius:14;
+}
+
+.jfx-button{
+     -fx-background-color: linear-gradient(to top right,#599fff, #599fff);
+     -fx-text-fill: #FFFFFF;
+}
+
+.default-color0.chart-series-area-line { 
+    -fx-stroke: #7371F4;
+}
+.default-color0.chart-series-area-fill {
+    -fx-fill: linear-gradient(to bottom,#7371F4, transparent);
+}
+
+.default-color1.chart-series-area-line { -fx-stroke: #FF9978; }
+.default-color1.chart-series-area-fill {
+    -fx-fill: linear-gradient(to bottom,#FF9978, transparent);
+}
