@@ -14,7 +14,7 @@ and open the template in the editor.
 }
 
 #pane2{
-     -fx-background-color: linear-gradient(to top right,#EFCC59, #F7E7B0);
+     -fx-background-color: linear-gradient(to top right,#599fff, #b8d6ff);
      -fx-background-radius:14;
 }
 

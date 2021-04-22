@@ -11,11 +11,11 @@ and open the template in the editor.
 
 
 .jfx-button:hover{
-   -fx-text-fill :#e8b612;
+   -fx-text-fill :#66ddff;
    -fx-fill: red;
 }
 
 .jfx-button:hover .glyph-icon{
-   -fx-text-fill :#e8b612;
-   -fx-fill: #e8b612;
+   -fx-text-fill :#66ddff;
+   -fx-fill: #66ddff;
 }

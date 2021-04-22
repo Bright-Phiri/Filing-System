@@ -10,8 +10,6 @@ import app.util.ShowTrayNotification;
 import com.jfoenix.controls.JFXTextField;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -84,9 +82,6 @@ public class viewUsersController implements Initializable {
     private PreparedStatement preparedStatement = null;
     private ResultSet resultSet = null;
     private final ObservableList<User> data = FXCollections.observableArrayList();
-    OutputStream outputStream = null;
-    InputStream inputStream = null;
-    int size;
 
     /**
      * Initializes the controller class.
@@ -99,7 +94,7 @@ public class viewUsersController implements Initializable {
 
     private void loadUserDetails() {
         data.clear();
-        String sql = "SELECT * FROM User WHERE Role != 'Admin'";
+        String sql = "SELECT * FROM users WHERE Role != 'Admin'";
         try {
             connection = Database.connect();
             preparedStatement = connection.prepareStatement(sql);
@@ -142,8 +137,8 @@ public class viewUsersController implements Initializable {
     }
 
     private HBox setActionButtons(int userId) {
-        String query = "delete from User where Id = ?";
-        String query1 = "select * from User where Id = ?";
+        String query = "delete from users where Id = ?";
+        String query1 = "select * from users where Id = ?";
         HBox hBox = new HBox(5);
         FontAwesomeIconView icon = new FontAwesomeIconView(FontAwesomeIcon.EDIT);
         icon.setSize("17");
@@ -159,14 +154,7 @@ public class viewUsersController implements Initializable {
                     preparedStatement.setInt(1, userId);
                     resultSet = preparedStatement.executeQuery();
                     resultSet.next();
-                    inputStream = resultSet.getBinaryStream("Image");
-                    byte[] content = new byte[1024];
-                    File file = new File("copy.png");
-                    outputStream = new FileOutputStream(file);
-                    while ((size = inputStream.read(content)) != -1) {
-                        outputStream.write(content, 0, size);
-                    }
-                    User user = new User(resultSet.getInt(1), resultSet.getString(2), resultSet.getString(3), resultSet.getString(4), resultSet.getString(5), resultSet.getString(6), resultSet.getString(7), file.getPath(), resultSet.getString(9));
+                    User user = new User(resultSet.getInt(1), resultSet.getString(2), resultSet.getString(3), resultSet.getString(4), resultSet.getString(5), resultSet.getString(6), resultSet.getString(7), resultSet.getString(8));
                     FXMLLoader xMLLoader = new FXMLLoader();
                     xMLLoader.setLocation(getClass().getResource("/app/view/addUser.fxml"));
                     Parent parent = xMLLoader.load();
@@ -175,7 +163,7 @@ public class viewUsersController implements Initializable {
                     userController.inflateUI(user);
                     mainPanelController.root.setCenter(parent);
                     addUserController.editMode = Boolean.TRUE;
-                } catch (IOException | SQLException ex) {
+                } catch (SQLException | IOException ex) {
                     Logger.getLogger(viewUsersController.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
@@ -271,7 +259,6 @@ public class viewUsersController implements Initializable {
         SimpleStringProperty phoneNumber;
         SimpleStringProperty userRole;
         SimpleStringProperty password;
-        SimpleStringProperty image;
         HBox controlsPane;
 
         public User(int userId, String firstName, String lastName, String userName, String emailAddress, String phoneNumber, String userRole, HBox controlsPane) {
@@ -285,7 +272,7 @@ public class viewUsersController implements Initializable {
             this.controlsPane = controlsPane;
         }
 
-        public User(int userId, String firstName, String lastName, String userName, String emailAddress, String phoneNumber, String userRole, String image, String password) {
+        public User(int userId, String firstName, String lastName, String userName, String emailAddress, String phoneNumber, String userRole, String password) {
             this.userId = new SimpleIntegerProperty(userId);
             this.firstName = new SimpleStringProperty(firstName);
             this.lastName = new SimpleStringProperty(lastName);
@@ -293,7 +280,6 @@ public class viewUsersController implements Initializable {
             this.emailAddress = new SimpleStringProperty(emailAddress);
             this.phoneNumber = new SimpleStringProperty(phoneNumber);
             this.userRole = new SimpleStringProperty(userRole);
-            this.image = new SimpleStringProperty(image);
             this.password = new SimpleStringProperty(password);
         }
 
@@ -331,10 +317,6 @@ public class viewUsersController implements Initializable {
 
         public String getPassword() {
             return password.get();
-        }
-
-        public String getImage() {
-            return image.get();
         }
 
         public HBox getControlsPane() {

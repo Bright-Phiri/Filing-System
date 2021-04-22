@@ -14,17 +14,22 @@ import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
 import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
 import javafx.stage.FileChooser;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.controlsfx.control.textfield.TextFields;
@@ -53,21 +58,20 @@ public class addUserController implements Initializable {
     private JFXTextField contact;
     @FXML
     private JFXPasswordField password;
-    @FXML
     private JFXTextField photoUrl;
     FileChooser chooser;
     Util util;
     File file;
     public static Boolean editMode = Boolean.FALSE;
     int id;
-    String phoneSugg[] = {"+26599","+26588"};
+    String phoneSugg[] = {"+26599", "+26588"};
 
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        role.setItems(FXCollections.observableArrayList("Clerk Officer","Senior Clerk Officer"));
+        role.setItems(FXCollections.observableArrayList("Clerk Officer", "Senior Clerk Officer"));
         chooser = new FileChooser();
         util = new Util();
         setUserData();
@@ -76,6 +80,15 @@ public class addUserController implements Initializable {
 
     @FXML
     private void cancelSaveUserFunction(ActionEvent event) {
+        if (editMode) {
+            clearCache();
+            try {
+                BorderPane borderPane = (BorderPane) FXMLLoader.load(getClass().getResource("/app/view/viewUsers.fxml"));
+                mainPanelController.root.setCenter(borderPane);
+            } catch (IOException ex) {
+                Logger.getLogger(addUserController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
         clearCache();
     }
 
@@ -84,7 +97,6 @@ public class addUserController implements Initializable {
         DatabaseHelper helper = new DatabaseHelper();
         if (ifFieldsEmpty() && util.validateName(firstName) && util.validateName(lastName) && util.validateName(username) && util.validateEmail(email) && util.validatePhoneNumber(contact)) {
             if (editMode) {
-                file = new File(photoUrl.getText());
                 User user = new User(id, firstName.getText(), lastName.getText(), username.getText(), email.getText(), contact.getText(), role.getValue(), DigestUtils.shaHex(password.getText()));
                 Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
                 alert.setTitle("Update user");
@@ -94,6 +106,12 @@ public class addUserController implements Initializable {
                 if (opt.get() == ButtonType.OK) {
                     if (helper.updateUser(user)) {
                         ShowTrayNotification notification = new ShowTrayNotification("Message", "User succssfully updated", NotificationType.SUCCESS);
+                        try {
+                            BorderPane borderPane = (BorderPane) FXMLLoader.load(getClass().getResource("/app/view/viewUsers.fxml"));
+                            mainPanelController.root.setCenter(borderPane);
+                        } catch (IOException ex) {
+                            Logger.getLogger(addUserController.class.getName()).log(Level.SEVERE, null, ex);
+                        }
                         clearCache();
                         editMode = Boolean.FALSE;
                     } else {
@@ -112,7 +130,6 @@ public class addUserController implements Initializable {
         }
     }
 
-    @FXML
     private void brosePhoto(MouseEvent event) {
         file = chooser.showOpenDialog(util.getStage(role));
         if (file != null) {

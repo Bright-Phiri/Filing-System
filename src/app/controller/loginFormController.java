@@ -27,7 +27,6 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import org.apache.commons.codec.digest.DigestUtils;
 
-
 /**
  * FXML Controller class
  *
@@ -48,7 +47,6 @@ public class loginFormController implements Initializable {
         // TODO
     }
 
-
     @FXML
     private void login(ActionEvent event) {
         DatabaseHelper databaseHelper = new DatabaseHelper();
@@ -67,8 +65,13 @@ public class loginFormController implements Initializable {
                         util.shoNotification(DatabaseHelper.USERNAME);
                         break;
                     }
-                    case "Doctor": {
-                        util.showUserStage(username, "/app/view/doctorPanel.fxml");
+                    case "Clerk Officer": {
+                        util.showUserStage(username, "/app/view/clerkOfficerPanel.fxml");
+                        util.shoNotification(DatabaseHelper.USERNAME);
+                        break;
+                    }
+                    case "Senior Clerk Officer": {
+                        util.showUserStage(username, "/app/view/clerkOfficerPanel.fxml");
                         util.shoNotification(DatabaseHelper.USERNAME);
                         break;
                     }
@@ -101,11 +104,11 @@ public class loginFormController implements Initializable {
 
     @FXML
     private void signIn(KeyEvent event) {
-        if (event.getCode() == KeyCode.ENTER){
+        if (event.getCode() == KeyCode.ENTER) {
             login(new ActionEvent());
         }
     }
-    
+
     @FXML
     private void closeApp(MouseEvent event) {
         Platform.exit();

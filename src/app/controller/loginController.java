@@ -45,7 +45,7 @@ public class loginController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         root = rootPane;
-        Database.checkTables("User", "CREATE TABLE `efs`.`User` (\n"
+        Database.checkTables("users", "CREATE TABLE `efs`.`users` (\n"
                 + "`Id` INT NOT NULL AUTO_INCREMENT ,\n"
                 + "`FirstName` VARCHAR( 40 ) NULL ,\n"
                 + "`LastName` VARCHAR( 40 )  NULL ,\n"
@@ -56,6 +56,22 @@ public class loginController implements Initializable {
                 + "`Password` VARCHAR( 50 ) NOT NULL ,\n"
                 + "PRIMARY KEY ( `Id` ) \n"
                 + ") ENGINE = InnoDB;");
+        Database.checkTables("Roadsj", "CREATE TABLE `efs`.`Roadsj` ( `id` INT NOT NULL AUTO_INCREMENT , `first_name` VARCHAR(40) NOT NULL , `last_name` VARCHAR(40) NOT NULL , `department` VARCHAR(20) NOT NULL , `file_name` VARCHAR(40) NOT NULL , PRIMARY KEY (`id`)) ENGINE = InnoDB; ");
+        Database.checkTables("Roadss", "CREATE TABLE `efs`.`Roadss` ( `id` INT NOT NULL AUTO_INCREMENT , `first_name` VARCHAR(40) NOT NULL , `last_name` VARCHAR(40) NOT NULL , `department` VARCHAR(20) NOT NULL , `file_name` VARCHAR(40) NOT NULL , PRIMARY KEY (`id`)) ENGINE = InnoDB; ");
+        Database.checkTables("Buldingsj", "CREATE TABLE `efs`.`Buldingsj` ( `id` INT NOT NULL AUTO_INCREMENT , `first_name` VARCHAR(40) NOT NULL , `last_name` VARCHAR(40) NOT NULL , `department` VARCHAR(20) NOT NULL , `file_name` VARCHAR(40) NOT NULL , PRIMARY KEY (`id`)) ENGINE = InnoDB; ");
+        Database.checkTables("Buldingss", "CREATE TABLE `efs`.`Buldingss` ( `id` INT NOT NULL AUTO_INCREMENT , `first_name` VARCHAR(40) NOT NULL , `last_name` VARCHAR(40) NOT NULL , `department` VARCHAR(20) NOT NULL , `file_name` VARCHAR(40) NOT NULL , PRIMARY KEY (`id`)) ENGINE = InnoDB; ");
+        Database.checkTables("Marinesj", "CREATE TABLE `efs`.`Marinesj` ( `id` INT NOT NULL AUTO_INCREMENT , `first_name` VARCHAR(40) NOT NULL , `last_name` VARCHAR(40) NOT NULL , `department` VARCHAR(20) NOT NULL , `file_name` VARCHAR(40) NOT NULL , PRIMARY KEY (`id`)) ENGINE = InnoDB; ");
+        Database.checkTables("Mariness", "CREATE TABLE `efs`.`Mariness` ( `id` INT NOT NULL AUTO_INCREMENT , `first_name` VARCHAR(40) NOT NULL , `last_name` VARCHAR(40) NOT NULL , `department` VARCHAR(20) NOT NULL , `file_name` VARCHAR(40) NOT NULL , PRIMARY KEY (`id`)) ENGINE = InnoDB; ");
+        Database.checkTables("Aviationsj", "CREATE TABLE `efs`.`Aviationsj` ( `id` INT NOT NULL AUTO_INCREMENT , `first_name` VARCHAR(40) NOT NULL , `last_name` VARCHAR(40) NOT NULL , `department` VARCHAR(20) NOT NULL , `file_name` VARCHAR(40) NOT NULL , PRIMARY KEY (`id`)) ENGINE = InnoDB; ");
+        Database.checkTables("Aviationss", "CREATE TABLE `efs`.`Aviationss` ( `id` INT NOT NULL AUTO_INCREMENT , `first_name` VARCHAR(40) NOT NULL , `last_name` VARCHAR(40) NOT NULL , `department` VARCHAR(20) NOT NULL , `file_name` VARCHAR(40) NOT NULL , PRIMARY KEY (`id`)) ENGINE = InnoDB; ");
+        Database.checkTables("RoadTrafficj", "CREATE TABLE `efs`.`RoadTrafficj` ( `id` INT NOT NULL AUTO_INCREMENT , `first_name` VARCHAR(40) NOT NULL , `last_name` VARCHAR(40) NOT NULL , `department` VARCHAR(20) NOT NULL , `file_name` VARCHAR(40) NOT NULL , PRIMARY KEY (`id`)) ENGINE = InnoDB; ");
+        Database.checkTables("RoadTraffics", "CREATE TABLE `efs`.`RoadTraffics` ( `id` INT NOT NULL AUTO_INCREMENT , `first_name` VARCHAR(40) NOT NULL , `last_name` VARCHAR(40) NOT NULL , `department` VARCHAR(20) NOT NULL , `file_name` VARCHAR(40) NOT NULL , PRIMARY KEY (`id`)) ENGINE = InnoDB; ");
+        Database.checkTables("PVHOj", "CREATE TABLE `efs`.`PVHOj` ( `id` INT NOT NULL AUTO_INCREMENT , `first_name` VARCHAR(40) NOT NULL , `last_name` VARCHAR(40) NOT NULL , `department` VARCHAR(20) NOT NULL , `file_name` VARCHAR(40) NOT NULL , PRIMARY KEY (`id`)) ENGINE = InnoDB; ");
+        Database.checkTables("PVHOs", "CREATE TABLE `efs`.`PVHOs` ( `id` INT NOT NULL AUTO_INCREMENT , `first_name` VARCHAR(40) NOT NULL , `last_name` VARCHAR(40) NOT NULL , `department` VARCHAR(20) NOT NULL, `file_name` VARCHAR(40) NOT NULL , PRIMARY KEY (`id`)) ENGINE = InnoDB; ");
+        Database.checkTables("Railwaysj", "CREATE TABLE `efs`.`Railwaysj` ( `id` INT NOT NULL AUTO_INCREMENT , `first_name` VARCHAR(40) NOT NULL , `last_name` VARCHAR(40) NOT NULL , `department` VARCHAR(20) NOT NULL ,`file_name` VARCHAR(40) NOT NULL , PRIMARY KEY (`id`)) ENGINE = InnoDB; ");
+        Database.checkTables("Railwayss", "CREATE TABLE `efs`.`Railwayss` ( `id` INT NOT NULL AUTO_INCREMENT , `first_name` VARCHAR(40) NOT NULL , `last_name` VARCHAR(40) NOT NULL , `department` VARCHAR(20) NOT NULL , `file_name` VARCHAR(40) NOT NULL , PRIMARY KEY (`id`)) ENGINE = InnoDB; ");
+        Database.checkTables("Headquartersj", "CREATE TABLE `efs`.`Headquartersj` ( `id` INT NOT NULL AUTO_INCREMENT , `first_name` VARCHAR(40) NOT NULL , `last_name` VARCHAR(40) NOT NULL , `department` VARCHAR(20) NOT NULL , `file_name` VARCHAR(40) NOT NULL , PRIMARY KEY (`id`)) ENGINE = InnoDB; ");
+        Database.checkTables("Headquarterss", "CREATE TABLE `efs`.`Headquarterss` ( `id` INT NOT NULL AUTO_INCREMENT , `first_name` VARCHAR(40) NOT NULL , `last_name` VARCHAR(40) NOT NULL , `department` VARCHAR(20) NOT NULL , `file_name` VARCHAR(40) NOT NULL , PRIMARY KEY (`id`)) ENGINE = InnoDB; ");
         try {
             VBox box = (VBox) FXMLLoader.load(getClass().getResource("/app/view/loginForm.fxml"));
             rootPane.setRight(box);
@@ -91,7 +107,7 @@ public class loginController implements Initializable {
         String image4 = "4.png";
         String image5 = "5.png";
         String image6 = "6.png";
-        
+
         String image = null;
         int number = 1 + (int) (Math.random() * 6);
         switch (number) {
@@ -124,6 +140,6 @@ public class loginController implements Initializable {
         fadeTransition.setFromValue(0);
         fadeTransition.setToValue(1);
         fadeTransition.play();
-        imageView.setImage(new Image("/app/images/"+ image));
+        imageView.setImage(new Image("/app/images/" + image));
     }
 }

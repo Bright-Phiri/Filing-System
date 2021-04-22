@@ -5,6 +5,7 @@
  */
 package app.controller;
 
+import static app.controller.mainPanelController.adminUsername;
 import app.model.Database;
 import app.model.DatabaseHelper;
 import com.jfoenix.controls.JFXButton;
@@ -56,24 +57,10 @@ import javafx.util.Duration;
  *
  * @author Bright
  */
-public class mainPanelController implements Initializable {
+public class clerkOfficerPanelController implements Initializable {
 
     @FXML
-    private JFXButton addUserBtn;
-    @FXML
-    private JFXButton userListBtn;
-    @FXML
-    private JFXButton settingsBtn;
-    @FXML
-    private FontAwesomeIconView useIco;
-    @FXML
-    private FontAwesomeIconView listIco;
-    @FXML
-    private FontAwesomeIconView settingsIco;
-    @FXML
     private BorderPane rootPane;
-    @FXML
-    private VBox pane;
     @FXML
     private Text day;
     @FXML
@@ -83,10 +70,19 @@ public class mainPanelController implements Initializable {
     @FXML
     private FontAwesomeIconView logout;
     @FXML
-    private Text username;
-    public static Text adminUsername;
+    private VBox pane;
     @FXML
     private Circle profile;
+    @FXML
+    private Text username;
+    @FXML
+    private JFXButton settingsBtn;
+    @FXML
+    private FontAwesomeIconView settingsIco;
+    @FXML
+    private JFXButton addUserBtn1;
+    @FXML
+    private FontAwesomeIconView useIco1;
     public static BorderPane root;
     PreparedStatement preparedStatement = null;
     Connection connection = null;
@@ -106,7 +102,7 @@ public class mainPanelController implements Initializable {
         Tooltip.install(logout, closeApp);
         JFXDepthManager.setDepth(pane, 1);
         profile.setFill(new ImagePattern(new Image("/app/images/index.png"), 0, 0, 1, 1, true));
-        setCenter("/app/view/addUser.fxml");
+        setCenter("/app/view/employeeFileindex.fxml");
 
         ScheduledService<Void> scheduledService = new ScheduledService<Void>() {
             @Override
@@ -125,26 +121,9 @@ public class mainPanelController implements Initializable {
             }
         };
         scheduledService.setPeriod(Duration.seconds(1));
-        Platform.runLater(()->{
+        Platform.runLater(() -> {
             scheduledService.start();
         });
-    }
-
-    @FXML
-    private void loadAddUserPanel(ActionEvent event) {
-        setCenter("/app/view/addUser.fxml");
-        addUserController.editMode = Boolean.FALSE;
-    }
-
-    @FXML
-    private void loadUserListPanel(ActionEvent event) {
-        setCenter("/app/view/viewUsers.fxml");
-        addUserController.editMode = Boolean.FALSE;
-    }
-
-    @FXML
-    private void loadSettingsPanel(ActionEvent event) {
-        setCenter("/app/view/settings.fxml");
     }
 
     private void setCenter(String fxmlUrl) {
@@ -153,7 +132,7 @@ public class mainPanelController implements Initializable {
             BorderPane.setMargin(borderPane, new Insets(0, 0, 0, 10));
             rootPane.setCenter(borderPane);
         } catch (IOException ex) {
-            Logger.getLogger(mainPanelController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(clerkOfficerPanelController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -177,9 +156,15 @@ public class mainPanelController implements Initializable {
                 stage1.centerOnScreen();
                 stage1.show();
             } catch (IOException ex) {
-                Logger.getLogger(mainPanelController.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(clerkOfficerPanelController.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
+    }
+
+
+
+    @FXML
+    private void loadSettingsPanel(ActionEvent event) {
     }
 
     private void setProfile(int id) {
@@ -190,8 +175,8 @@ public class mainPanelController implements Initializable {
             resultSet = preparedStatement.executeQuery();
             resultSet.next();
             username.setText(resultSet.getString("Username"));
-        } catch (SQLException  ex) {
-            Logger.getLogger(mainPanelController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(clerkOfficerPanelController.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             try {
                 if (resultSet != null) {
@@ -204,13 +189,20 @@ public class mainPanelController implements Initializable {
                     connection.close();
                 }
             } catch (SQLException ex) {
-                Logger.getLogger(mainPanelController.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(clerkOfficerPanelController.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
+    }
+
+
+    @FXML
+    private void loadViewEmployeeFiles(ActionEvent event) {
+        setCenter("/app/view/employeeFileindex.fxml");
     }
 
     @FXML
     private void loadSettings(MouseEvent event) {
         loadSettingsPanel(new ActionEvent());
     }
+
 }

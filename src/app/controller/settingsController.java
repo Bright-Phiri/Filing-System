@@ -13,11 +13,6 @@ import app.util.ShowTrayNotification;
 import app.util.Util;
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -32,11 +27,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
-import javafx.scene.image.Image;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.paint.ImagePattern;
-import javafx.stage.FileChooser;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.controlsfx.control.textfield.TextFields;
 import tray.notification.NotificationType;
@@ -57,8 +48,6 @@ public class settingsController implements Initializable {
     @FXML
     private JFXTextField phone;
     @FXML
-    private JFXTextField imageUrl;
-    @FXML
     private JFXPasswordField password;
     @FXML
     private JFXPasswordField oldPassword;
@@ -69,8 +58,6 @@ public class settingsController implements Initializable {
     Connection connection = null;
     PreparedStatement preparedStatement = null;
     ResultSet resultSet = null;
-    File file;
-    FileChooser chooser;
     Util util;
     String phoneSugg[] = {"+26599", "+26588"};
 
@@ -81,17 +68,7 @@ public class settingsController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         loadPersonalInfor();
         util = new Util();
-        chooser = new FileChooser();
-        util.initializeFileChooser(chooser);
         TextFields.bindAutoCompletion(phone, phoneSugg);
-    }
-
-    @FXML
-    private void browseImage(MouseEvent event) {
-        file = chooser.showOpenDialog(util.getStage(phone));
-        if (file != null) {
-            imageUrl.setText(file.getAbsolutePath());
-        }
     }
 
     @FXML
@@ -158,7 +135,7 @@ public class settingsController implements Initializable {
     }
 
     private void loadPersonalInfor() {
-        String sql = "SELECT * FROM User WHERE Role = 'Admin'";
+        String sql = "SELECT * FROM users WHERE Role = 'Admin'";
         try {
             connection = Database.connect();
             preparedStatement = connection.prepareStatement(sql);
@@ -188,7 +165,7 @@ public class settingsController implements Initializable {
     }
 
     private Boolean validateFields() {
-        if (username.getText().isEmpty() || email.getText().isEmpty() || phone.getText().isEmpty() || imageUrl.getText().isEmpty() || password.getText().isEmpty()) {
+        if (username.getText().isEmpty() || email.getText().isEmpty() || phone.getText().isEmpty() || password.getText().isEmpty()) {
             ShowAlert alert = new ShowAlert(Alert.AlertType.ERROR, "Fields validation", "Please enter in all fields");
             return Boolean.FALSE;
         }
@@ -199,7 +176,6 @@ public class settingsController implements Initializable {
         email.clear();
         username.clear();
         phone.clear();
-        imageUrl.clear();
         password.clear();
     }
 

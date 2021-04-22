@@ -2,7 +2,6 @@
 
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXComboBox?>
-<?import com.jfoenix.controls.JFXPasswordField?>
 <?import com.jfoenix.controls.JFXTextField?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -15,13 +14,13 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane prefHeight="600.0" prefWidth="1001.0" style="-fx-background-color: #F3F5F7;" stylesheets="@../css/dashBoard.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.controller.addUserController">
+<BorderPane prefHeight="600.0" prefWidth="1001.0" style="-fx-background-color: #F3F5F7;" stylesheets="@../css/dashBoard.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.controller.addEmployeeFileController">
    <top>
       <HBox prefWidth="967.0" BorderPane.alignment="CENTER">
          <children>
             <VBox prefHeight="45.0" prefWidth="710.0" HBox.hgrow="ALWAYS">
                <children>
-                  <Text fill="#66ddff" strokeType="OUTSIDE" strokeWidth="0.0" text="Add user">
+                  <Text fill="#66ddff" strokeType="OUTSIDE" strokeWidth="0.0" text="Add Employee File">
                      <VBox.margin>
                         <Insets left="20.0" top="25.0" />
                      </VBox.margin>
@@ -50,8 +49,6 @@
                           <rowConstraints>
                             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                               <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                           </rowConstraints>
                            <VBox.margin>
@@ -68,44 +65,32 @@
                                     <Font size="14.0" />
                                  </font>
                               </JFXTextField>
-                              <JFXTextField fx:id="username" focusColor="BLACK" labelFloat="true" promptText="Username" GridPane.rowIndex="1">
-                                 <font>
-                                    <Font size="14.0" />
-                                 </font>
-                              </JFXTextField>
-                              <JFXComboBox fx:id="role" maxWidth="1.7976931348623157E308" prefHeight="25.0" prefWidth="431.0" promptText="User Role" style="-fx-font-size: 14;" GridPane.columnIndex="1" GridPane.hgrow="SOMETIMES" GridPane.rowIndex="2" />
-                              <JFXTextField fx:id="email" focusColor="BLACK" labelFloat="true" promptText="Email Address" GridPane.columnIndex="1" GridPane.rowIndex="1">
-                                 <font>
-                                    <Font size="14.0" />
-                                 </font>
-                              </JFXTextField>
-                              <JFXTextField fx:id="contact" focusColor="BLACK" labelFloat="true" promptText="Phone" GridPane.rowIndex="2">
-                                 <font>
-                                    <Font size="14.0" />
-                                 </font>
-                              </JFXTextField>
-                              <HBox prefHeight="100.0" prefWidth="200.0" spacing="10.0" GridPane.rowIndex="4">
+                              <JFXComboBox fx:id="department" maxWidth="1.7976931348623157E308" prefHeight="30.0" prefWidth="409.0" promptText="Department" style="-fx-font-size: 14;" GridPane.hgrow="SOMETIMES" GridPane.rowIndex="1">
+                                 <GridPane.margin>
+                                    <Insets />
+                                 </GridPane.margin></JFXComboBox>
+                              <HBox prefHeight="100.0" prefWidth="200.0" spacing="10.0" GridPane.rowIndex="2">
                                  <GridPane.margin>
                                     <Insets top="50.0" />
                                  </GridPane.margin>
                                  <children>
-                                    <JFXButton onAction="#cancelSaveUserFunction" prefHeight="30.0" prefWidth="172.0" text="Cancel" HBox.hgrow="NEVER">
+                                    <JFXButton onAction="#cancelSaveEmployeeFileFunction" prefHeight="30.0" prefWidth="172.0" text="Cancel" HBox.hgrow="NEVER">
                                        <font>
                                           <Font size="14.0" />
                                        </font>
                                     </JFXButton>
-                                    <JFXButton layoutX="268.0" layoutY="10.0" onAction="#saveUser" prefHeight="30.0" prefWidth="172.0" text="Save" HBox.hgrow="NEVER">
+                                    <JFXButton layoutX="268.0" layoutY="10.0" onAction="#saveEmployeeFile" prefHeight="30.0" prefWidth="172.0" text="Save" HBox.hgrow="NEVER">
                                        <font>
                                           <Font size="14.0" />
                                        </font>
                                     </JFXButton>
                                  </children>
                               </HBox>
-                              <JFXPasswordField fx:id="password" focusColor="BLACK" labelFloat="true" promptText="Choose Default Password" GridPane.rowIndex="3">
-                                 <font>
-                                    <Font size="14.0" />
-                                 </font>
-                              </JFXPasswordField>
+                              <JFXComboBox fx:id="staffType" layoutX="10.0" layoutY="60.0" maxWidth="1.7976931348623157E308" prefHeight="25.0" prefWidth="431.0" promptText="Grade" style="-fx-font-size: 14;" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                                 <GridPane.margin>
+                                    <Insets />
+                                 </GridPane.margin>
+                              </JFXComboBox>
                            </children>
                         </GridPane>
                      </children>

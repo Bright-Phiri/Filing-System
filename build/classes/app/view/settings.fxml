@@ -3,7 +3,6 @@
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXPasswordField?>
 <?import com.jfoenix.controls.JFXTextField?>
-<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
@@ -12,7 +11,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane prefHeight="600.0" prefWidth="1001.0" style="-fx-background-color: #F3F5F7;" stylesheets="@../css/dashBoard.css" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.controller.settingsController">
+<BorderPane prefHeight="600.0" prefWidth="1001.0" style="-fx-background-color: #F3F5F7;" stylesheets="@../css/dashBoard.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.controller.settingsController">
    <top>
       <HBox prefWidth="967.0" BorderPane.alignment="CENTER">
          <children>
@@ -73,23 +72,6 @@
                                     <Insets left="20.0" top="20.0" />
                                  </VBox.margin>
                               </JFXTextField>
-                              <HBox>
-                                 <children>
-                                    <JFXTextField fx:id="imageUrl" editable="false" labelFloat="true" maxWidth="377.0" prefHeight="30.0" prefWidth="350.0" promptText="Image">
-                                       <font>
-                                          <Font size="14.0" />
-                                       </font>
-                                    </JFXTextField>
-                                    <FontAwesomeIconView glyphName="PICTURE_ALT" onMouseClicked="#browseImage" size="25">
-                                       <HBox.margin>
-                                          <Insets top="5.0" />
-                                       </HBox.margin>
-                                    </FontAwesomeIconView>
-                                 </children>
-                                 <VBox.margin>
-                                    <Insets left="20.0" top="20.0" />
-                                 </VBox.margin>
-                              </HBox>
                               <JFXPasswordField fx:id="password" labelFloat="true" maxWidth="376.0" prefHeight="30.0" prefWidth="228.0" promptText="Enter password to proceed">
                                  <font>
                                     <Font size="14.0" />

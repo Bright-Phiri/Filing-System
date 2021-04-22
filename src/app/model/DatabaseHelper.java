@@ -6,12 +6,11 @@
 package app.model;
 
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -31,7 +30,7 @@ public class DatabaseHelper {
     public static int ID;
 
     public Boolean userSignIn(String userName, String password) {
-        String sql = "SELECT * FROM User WHERE Username = ? AND Password = ? ";
+        String sql = "SELECT * FROM users WHERE Username = ? AND Password = ? ";
         try {
             connection = Database.connect();
             preparedStatement = connection.prepareStatement(sql);
@@ -65,7 +64,7 @@ public class DatabaseHelper {
     }
 
     public Boolean addUser(User user) {
-        String sql = "INSERT INTO User (FirstName,LastName,Username,Email,Phone,Role,Password) VALUES (?,?,?,?,?,?,?)";
+        String sql = "INSERT INTO users (FirstName,LastName,Username,Email,Phone,Role,Password) VALUES (?,?,?,?,?,?,?)";
         try {
             connection = Database.connect();
             preparedStatement = connection.prepareStatement(sql);
@@ -76,6 +75,80 @@ public class DatabaseHelper {
             preparedStatement.setString(5, user.getPhone());
             preparedStatement.setString(6, user.getUserType());
             preparedStatement.setString(7, user.getPassword());
+
+            return preparedStatement.executeUpdate() > 0;
+        } catch (SQLException ex) {
+            Logger.getLogger(DatabaseHelper.class.getName()).log(Level.SEVERE, null, ex);
+            return Boolean.FALSE;
+        } finally {
+            try {
+                if (preparedStatement != null) {
+                    preparedStatement.close();
+                }
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (SQLException ex) {
+                Logger.getLogger(DatabaseHelper.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }
+
+    public Boolean addEmployeeFile(Employee employee, String tableName) {
+        String sql = "INSERT INTO " + tableName + " (first_name,last_name,department,file_name) VALUES (?,?,?,?)";
+        String update = "UPDATE " + tableName + " SET file_name = ? WHERE id = ?";
+        String selectFileName = "SELECT file_name from " + tableName + " WHERE id = ?";
+        try {
+            connection = Database.connect();
+            preparedStatement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            preparedStatement.setString(1, employee.getFirstName());
+            preparedStatement.setString(2, employee.getLastName());
+            preparedStatement.setString(3, employee.getDepartment());
+            preparedStatement.setString(4, employee.getFileName());
+            preparedStatement.executeUpdate();
+            resultSet = preparedStatement.getGeneratedKeys();
+            resultSet.next();
+            int fileNumber = resultSet.getInt(1);
+            String fileName = "";
+            resultSet.close();
+            preparedStatement.clearParameters();
+            preparedStatement = connection.prepareStatement(selectFileName);
+            preparedStatement.setInt(1, fileNumber);
+            resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                fileName = resultSet.getString("file_name");
+            }
+            fileName = fileName + "" + fileNumber;
+            preparedStatement.clearParameters();
+            preparedStatement = connection.prepareStatement(update);
+            preparedStatement.setString(1, fileName);
+            preparedStatement.setInt(2, fileNumber);
+            return preparedStatement.executeUpdate() > 0;
+        } catch (SQLException ex) {
+            Logger.getLogger(DatabaseHelper.class.getName()).log(Level.SEVERE, null, ex);
+            return Boolean.FALSE;
+        } finally {
+            try {
+                if (preparedStatement != null) {
+                    preparedStatement.close();
+                }
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (SQLException ex) {
+                Logger.getLogger(DatabaseHelper.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }
+
+    public Boolean updateEmployee(Employee employee, String tableName) {
+        String update = "UPDATE " + tableName + " SET first_name = ?,last_name = ? WHERE id = ?";
+        try {
+            connection = Database.connect();
+            preparedStatement = connection.prepareStatement(update);
+            preparedStatement.setString(1, employee.getFirstName());
+            preparedStatement.setString(2, employee.getLastName());
+            preparedStatement.setInt(3, employee.getId());
             return preparedStatement.executeUpdate() > 0;
         } catch (SQLException ex) {
             Logger.getLogger(DatabaseHelper.class.getName()).log(Level.SEVERE, null, ex);
@@ -95,7 +168,7 @@ public class DatabaseHelper {
     }
 
     public Boolean updateUser(User user) {
-        String sql = "UPDATE User SET FirstName = ?,LastName =?,Username = ?,Email = ?,Phone  = ?, Role = ?,Password = ? WHERE Id = ?";
+        String sql = "UPDATE users SET FirstName = ?,LastName =?,Username = ?,Email = ?,Phone  = ?, Role = ?,Password = ? WHERE Id = ?";
         try {
             connection = Database.connect();
             preparedStatement = connection.prepareStatement(sql);
@@ -126,7 +199,7 @@ public class DatabaseHelper {
     }
 
     public Boolean ifAdminExists() {
-        String sql = "SELECT * FROM User WHERE Role = 'Admin'";
+        String sql = "SELECT * FROM users WHERE Role = 'Admin'";
         try {
             connection = Database.connect();
             preparedStatement = connection.prepareStatement(sql);
@@ -156,7 +229,7 @@ public class DatabaseHelper {
 
     public int ifRecords() {
         int numberOfRecords = 0;
-        String sql = "SELECT COUNT(*) FROM User WHERE Role = 'Admin'";
+        String sql = "SELECT COUNT(*) FROM users WHERE Role = 'Admin'";
         try {
             connection = Database.connect();
             preparedStatement = connection.prepareStatement(sql);
@@ -184,7 +257,7 @@ public class DatabaseHelper {
     }
 
     public Boolean createAccount(Admin admin) {
-        String sql = "INSERT INTO User (Username,Email,Phone,Role,Password) VALUES (?,?,?,?,?)";
+        String sql = "INSERT INTO users (Username,Email,Phone,Role,Password) VALUES (?,?,?,?,?)";
         try {
             connection = Database.connect();
             preparedStatement = connection.prepareStatement(sql);
@@ -212,7 +285,7 @@ public class DatabaseHelper {
     }
 
     public Boolean updateAdmin(Admin admin) {
-        String sql = "UPDATE User SET Username = ?,Email = ?,Phone = ? WHERE Role  = ?";
+        String sql = "UPDATE users SET Username = ?,Email = ?,Phone = ? WHERE Role  = ?";
         try {
             connection = Database.connect();
             preparedStatement = connection.prepareStatement(sql);
@@ -221,7 +294,7 @@ public class DatabaseHelper {
             preparedStatement.setString(3, admin.getPhone());
             preparedStatement.setString(4, "Admin");
             return preparedStatement.executeUpdate() > 0;
-        } catch (SQLException  ex) {
+        } catch (SQLException ex) {
             Logger.getLogger(DatabaseHelper.class.getName()).log(Level.SEVERE, null, ex);
             return Boolean.FALSE;
         } finally {
@@ -239,7 +312,7 @@ public class DatabaseHelper {
     }
 
     public Boolean validatePassword(int id, String password) {
-        String sql = "SELECT * FROM User WHERE Id = ? AND Password  = ?";
+        String sql = "SELECT * FROM users WHERE Id = ? AND Password  = ?";
         try {
             connection = Database.connect();
             preparedStatement = connection.prepareStatement(sql);
@@ -270,7 +343,7 @@ public class DatabaseHelper {
     }
 
     public Boolean updatePassword(int id, String passwrd) {
-        String sql = "UPDATE User SET Password = ? WHERE Id = ?";
+        String sql = "UPDATE users SET Password = ? WHERE Id = ?";
         try {
             connection = Database.connect();
             preparedStatement = connection.prepareStatement(sql);

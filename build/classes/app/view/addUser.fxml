@@ -89,12 +89,12 @@
                                     <Insets top="50.0" />
                                  </GridPane.margin>
                                  <children>
-                                    <JFXButton onAction="#cancelSaveUserFunction" prefHeight="30.0" prefWidth="172.0" style="-fx-background-color: #f3da85;" text="Cancel" HBox.hgrow="NEVER">
+                                    <JFXButton onAction="#cancelSaveUserFunction" prefHeight="30.0" prefWidth="172.0" text="Cancel" HBox.hgrow="NEVER">
                                        <font>
                                           <Font size="14.0" />
                                        </font>
                                     </JFXButton>
-                                    <JFXButton layoutX="268.0" layoutY="10.0" onAction="#saveUser" prefHeight="30.0" prefWidth="172.0" style="-fx-background-color: #f3da85;" text="Save" HBox.hgrow="NEVER">
+                                    <JFXButton layoutX="268.0" layoutY="10.0" onAction="#saveUser" prefHeight="30.0" prefWidth="172.0" text="Save" HBox.hgrow="NEVER">
                                        <font>
                                           <Font size="14.0" />
                                        </font>
